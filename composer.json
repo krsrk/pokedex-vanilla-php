@@ -1,0 +1,17 @@
+{
+    "name": "pokedex/pokedex-vanilla-php",
+    "description": "Pokedex Dev Project. Vanilla PHP",
+    "keywords": ["pokedex", "pokedex", "vanilla-php"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Pokedex\\": "src/Pokedex",
+            "Utils\\": "src/Utils"
+        }
+    }
+}
