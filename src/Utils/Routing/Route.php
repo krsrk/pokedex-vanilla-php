@@ -4,17 +4,16 @@
 namespace Utils\Routing;
 
 
+use Utils\Request;
+
 class Route
 {
-    const PARAMETER_PATTERN = '/:([^\/]+)/';
-    const PARAMETER_REPLACEMENT = '(?<\1>[^/]+)';
-
-    protected $requestUri;
     protected $routes = [];
+    protected $request;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->setRequestUri($_SERVER['REQUEST_URI']);
+        $this->setRequest($request);
     }
 
     public function add(string $uriString, $closure)
@@ -28,42 +27,38 @@ class Route
     public function run()
     {
         $response = false;
-        $requestUri = $this->getRequestUri();
 
-        foreach ($this->routes as $route)
-        {
-            if ($this->checkIfRoutesMatch($requestUri, $route['uri']))
-            {
+        foreach ($this->routes as $route) {
+            if ($this->checkIfRoutesMatch($route['uri'])) {
                 $response = $route;
                 break;
             }
         }
 
-        /**
-         * @todo Process the Response. Execture the closure.
-         */
-
-        return (is_array($response)) ? $response : '404 - Route Not Found';
+        return (is_array($response)) ? $this->sendResponse($response) : '404 - Route Not Found';
     }
 
-    public function checkIfRoutesMatch($requestUri, $routeUri)
+    public function checkIfRoutesMatch($routeUri)
     {
-        $uriPattern = $this->getUriPattern($routeUri);
+        $uriPattern = $this->request->getUriPattern($routeUri);
 
         /**
          * @todo resolve URL params.
          */
 
-        return (preg_match($uriPattern, $requestUri, $matches));
+        return $this->request->isRouteUrisMatch($uriPattern);
     }
 
-    public function getUriPattern(string $routeUri)
+    public function sendResponse($response)
     {
-        $uriPattern = preg_replace(self::PARAMETER_PATTERN, self::PARAMETER_REPLACEMENT, $routeUri);
-        $uriPattern = str_replace('/', '\/', $uriPattern);
-        $uriPattern = '/^' . $uriPattern . '\/*$/s';
+        return $this->execute($response['closure']);
+    }
 
-        return $uriPattern;
+    public function execute($responseClosure)
+    {
+        $closure = $responseClosure;
+        //$parameters = $this->getParameters();
+        return call_user_func_array($closure, []);
     }
 
     /**
@@ -80,5 +75,21 @@ class Route
     public function setRequestUri($uri): void
     {
         $this->requestUri = $uri;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request): void
+    {
+        $this->request = $request;
     }
 }
