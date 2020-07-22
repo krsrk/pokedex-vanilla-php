@@ -40,13 +40,16 @@ class Route
 
     public function checkIfRoutesMatch($routeUri)
     {
+        $isRoutesMatch = false;
         $uriPattern = $this->request->getUriPattern($routeUri);
+        $routeAndUriMatch = $this->request->isRouteUrisMatch($uriPattern);
 
-        /**
-         * @todo resolve URL params.
-         */
+        if ($routeAndUriMatch->result) {
+            $this->request->processParams($routeAndUriMatch->matches);
+            $isRoutesMatch = true;
+        }
 
-        return $this->request->isRouteUrisMatch($uriPattern);
+        return $isRoutesMatch;
     }
 
     public function sendResponse($response)
@@ -57,8 +60,9 @@ class Route
     public function execute($responseClosure)
     {
         $closure = $responseClosure;
-        //$parameters = $this->getParameters();
-        return call_user_func_array($closure, []);
+        $parameters = $this->request->getParams();
+
+        return call_user_func_array($closure, $parameters);
     }
 
     /**

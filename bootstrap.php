@@ -5,9 +5,5 @@
 
 require __DIR__ . '/routes/web.php';
 
-use Utils\App;
-
-$app = new App();
-
-$app->run($route);
+(new \Utils\App())($route);
 

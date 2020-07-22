@@ -1,10 +1,11 @@
 <?php
 
-use Utils\Request;
-use Utils\Routing\Route;
-
-$route = new Route(new Request($_SERVER['REQUEST_URI']));
+$route = new \Utils\Routing\Route(new \Utils\Request($_SERVER['REQUEST_URI']));
 
 $route->add('/', function () {
     echo '<h2>Hello Pokedex!</h2>';
+});
+
+$route->add('/pokemons', function () {
+    echo '<h1>Hello Pokemons!</h1>';
 });

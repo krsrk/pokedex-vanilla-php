@@ -8,12 +8,7 @@ use Utils\Routing\Route;
 
 class App
 {
-    public function __construct()
-    {
-        
-    }
-
-    public function run(Route $route)
+    public function __invoke(Route $route)
     {
         return $route->run();
     }

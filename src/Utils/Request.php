@@ -19,7 +19,10 @@ class Request
 
     public function isRouteUrisMatch(string $uriPattern)
     {
-        return (preg_match($uriPattern, $this->getUri(), $matches));
+        return (object)[
+            'result' => (preg_match($uriPattern, $this->getUri(), $matches)),
+            'matches' => $matches,
+        ];
     }
 
 
@@ -30,6 +33,14 @@ class Request
         $uriPattern = '/^' . $uriPattern . '\/*$/s';
 
         return $uriPattern;
+    }
+
+    public function processParams($uriMatches)
+    {
+        preg_match_all(self::PARAMETER_PATTERN, $this->uri, $parameterNames);
+        $paramNames = array_flip($parameterNames[1]);
+
+        $this->setParams(array_intersect_key($uriMatches, $paramNames));
     }
 
     /**
