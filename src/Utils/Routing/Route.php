@@ -5,6 +5,7 @@ namespace Utils\Routing;
 
 
 use Utils\Request;
+use Utils\Response;
 
 class Route
 {
@@ -26,7 +27,10 @@ class Route
 
     public function run()
     {
-        $response = false;
+        $response = [
+            'uri' => '',
+            'closure' => false,
+        ];
 
         foreach ($this->routes as $route) {
             if ($this->checkIfRoutesMatch($route['uri'])) {
@@ -35,7 +39,7 @@ class Route
             }
         }
 
-        return (is_array($response)) ? $this->sendResponse($response) : '404 - Route Not Found';
+        (new Response($response['closure']))->send($this->request);
     }
 
     public function checkIfRoutesMatch($routeUri)
@@ -50,19 +54,6 @@ class Route
         }
 
         return $isRoutesMatch;
-    }
-
-    public function sendResponse($response)
-    {
-        return $this->execute($response['closure']);
-    }
-
-    public function execute($responseClosure)
-    {
-        $closure = $responseClosure;
-        $parameters = $this->request->getParams();
-
-        return call_user_func_array($closure, $parameters);
     }
 
     /**
