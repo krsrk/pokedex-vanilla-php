@@ -10,6 +10,6 @@ class App
 {
     public function __invoke(Route $route)
     {
-        return $route->run();
+        $route->run();
     }
 }
