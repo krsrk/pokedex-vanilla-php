@@ -38,7 +38,7 @@ class Response
            $controllerMethod = $this->closure['object_info']['method'];
         }
 
-        return ($isControllerClosure) ? $controller->$controllerMethod() : call_user_func_array($closure, $parameters);
+        return ($isControllerClosure) ? $controller->$controllerMethod($parameters) : call_user_func_array($closure, $parameters);
     }
 
     /**

@@ -49,7 +49,7 @@ class Route
         $routeAndUriMatch = $this->request->isRouteUrisMatch($uriPattern);
 
         if ($routeAndUriMatch->result) {
-            $this->request->processParams($routeAndUriMatch->matches);
+            $this->request->processParams($routeAndUriMatch->matches, $routeUri);
             $isRoutesMatch = true;
         }
 

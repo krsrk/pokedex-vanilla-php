@@ -35,11 +35,10 @@ class Request
         return $uriPattern;
     }
 
-    public function processParams($uriMatches)
+    public function processParams($uriMatches, $routeUri)
     {
-        preg_match_all(self::PARAMETER_PATTERN, $this->uri, $parameterNames);
+        preg_match_all(self::PARAMETER_PATTERN, $routeUri, $parameterNames);
         $paramNames = array_flip($parameterNames[1]);
-
         $this->setParams(array_intersect_key($uriMatches, $paramNames));
     }
 
