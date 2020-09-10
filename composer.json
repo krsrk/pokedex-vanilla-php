@@ -5,13 +5,18 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "twig/twig": "^3.0",
+        "illuminate/database": "^7.20"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "Pokedex\\": "src/Pokedex",
             "Utils\\": "src/Utils"
-        }
+        },
+        "files": [
+            "src/Utils/helpers.php"
+        ]
     }
 }
