@@ -8,7 +8,7 @@ $route->add('/', function () {
     //$template = new Utils\View\View();
     //$template->render('pokedex.html');
 
-    view('pokedex.html');
+    view('pokedex.html', ['pokemonName' => 'Balbusaur']);
 });
 
 $route->add('/str', 'Pikachu!!!');

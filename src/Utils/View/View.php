@@ -21,9 +21,7 @@ class View
     private function _init()
     {
         $loader = new Loader(self::TEMPLATES_PATH);
-        $this->view = new Environment($loader, [
-            'cache' => self::CACHE_PATH,
-        ]);
+        $this->view = new Environment($loader);
     }
 
     public function render(string $viewFile, array $opts = [])
