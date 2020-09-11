@@ -8,8 +8,8 @@ use Twig\Environment;
 
 class View
 {
-    const TEMPLATES_PATH = __DIR__ . '/resources/views';
-    const CACHE_PATH = __DIR__ . '/resources/views/cache';
+    const TEMPLATES_PATH = 'resources/views';
+    const CACHE_PATH = 'resources/views/cache';
 
     protected $view;
 
@@ -26,7 +26,7 @@ class View
         ]);
     }
 
-    public function render(string $viewFile, array $opts = []) : Environment
+    public function render(string $viewFile, array $opts = [])
     {
         echo $this->view->render($viewFile, $opts);
     }
