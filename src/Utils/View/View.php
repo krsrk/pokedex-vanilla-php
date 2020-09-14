@@ -5,6 +5,7 @@ namespace Utils\View;
 
 use Twig\Loader\FilesystemLoader as Loader;
 use Twig\Environment;
+use Twig\Error\LoaderError;
 
 class View
 {
@@ -26,6 +27,10 @@ class View
 
     public function render(string $viewFile, array $opts = [])
     {
-        echo $this->view->render($viewFile, $opts);
+        try {
+            echo $this->view->render($viewFile, $opts);
+        } catch (LoaderError $e) {
+            echo $this->view->render('errors/404-not-found.html');
+        }
     }
 }

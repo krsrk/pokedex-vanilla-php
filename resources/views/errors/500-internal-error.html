@@ -1,0 +1,10 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+    <h1>Internal Error!!! :(</h1>
+    <blockquote>
+       <b>Message:</b> {{ exceptionMessage }} <br>
+       <b>File:</b> {{ exceptionFile }} <br>
+       <b>Line:</b> {{ exceptionLine }} <br>
+    </blockquote>
+{% endblock %}
