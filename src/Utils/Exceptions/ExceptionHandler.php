@@ -17,6 +17,7 @@ class ExceptionHandler implements Exception
     private function _initException($exception)
     {
         view('errors/500-internal-error.html', [
+            'debug' => env_var('APP_DEBUG'),
             'exceptionMessage' => $exception->getMessage(),
             'exceptionFile' => $exception->getFile(),
             'exceptionLine' => $exception->getLine(),

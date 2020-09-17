@@ -2,9 +2,12 @@
 
 {% block content %}
     <h1>Internal Error!!! :(</h1>
+
+    {% if debug %}
     <blockquote>
        <b>Message:</b> {{ exceptionMessage }} <br>
        <b>File:</b> {{ exceptionFile }} <br>
        <b>Line:</b> {{ exceptionLine }} <br>
     </blockquote>
+    {% endif %}
 {% endblock %}
