@@ -2,6 +2,7 @@
 
 use Utils\View\View;
 use Utils\Configuration\Env;
+use Utils\Request;
 
 
 if (! function_exists('view')) {
@@ -23,5 +24,12 @@ if (! function_exists('env_var')) {
         }
 
         return $envVarValue;
+    }
+}
+
+if (! function_exists('request')) {
+    function request()
+    {
+        return new Request();
     }
 }
