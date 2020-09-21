@@ -12,15 +12,16 @@ class Request
     protected $uri;
     protected $params;
 
-    public function __construct(string $uri)
+    public function __construct(string $uri = '')
     {
         $this->setUri($uri);
     }
 
     public function isRouteUrisMatch(string $uriPattern)
     {
+        $uri = explode('?', $this->getUri())[0];
         return (object)[
-            'result' => (preg_match($uriPattern, $this->getUri(), $matches)),
+            'result' => (preg_match($uriPattern, $uri, $matches)),
             'matches' => $matches,
         ];
     }
@@ -40,6 +41,21 @@ class Request
         preg_match_all(self::PARAMETER_PATTERN, $routeUri, $parameterNames);
         $paramNames = array_flip($parameterNames[1]);
         $this->setParams(array_intersect_key($uriMatches, $paramNames));
+    }
+
+    public function isMethod(string $method)
+    {
+        return (strtoupper($method) == $_SERVER['REQUEST_METHOD']);
+    }
+
+    public function getUrlParams($castParamsToObject = false)
+    {
+        return ($castParamsToObject) ? (object) $_REQUEST : $_REQUEST;
+    }
+
+    public function getHeaders()
+    {
+        return getallheaders();
     }
 
     /**
