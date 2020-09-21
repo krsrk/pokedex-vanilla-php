@@ -16,14 +16,3 @@ $route->add('/str', 'Pikachu!!!');
 $route->add('/arr', ['pokemon' => 'Charizard']);
 
 $route->add('/id/:id', 'PokemonController@index');
-
-$route->add('/api', function () {
-    $request = new \Utils\Request();
-    echo ($request->isMethod('post')) ? 'Metodo: POST <br>' : 'Metodo: ANY OTHER METHOD <br>';
-    $params = $request->getUrlParams();
-    echo (count($params)) ? 'Has Params!' : 'No Params!';
-    echo '<br>';
-    var_dump($request->getHeaders()['Authorization']);
-    echo '<br>';
-    var_dump(request()->getUrlParams());
-});
