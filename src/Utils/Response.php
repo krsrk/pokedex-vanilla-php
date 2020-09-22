@@ -8,9 +8,11 @@ class Response
 {
     protected $closure;
 
-    public function __construct($closure)
+    public function __construct($closure = null)
     {
-        $this->setClosure($closure);
+        if(!is_null($closure)) {
+            $this->setClosure($closure);
+        }
     }
 
     public function send($request)
@@ -89,5 +91,15 @@ class Response
         ];
     }
 
+    public function json($dataResponse, int $codeResponse = 200)
+    {
+        $processData = $dataResponse;
 
+        if (is_object($dataResponse)) {
+            $processData = $dataResponse->toArray();
+        }
+
+        header("Content-Type: application/json", true, $codeResponse);
+        echo json_encode($processData);
+    }
 }

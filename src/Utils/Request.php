@@ -12,9 +12,9 @@ class Request
     protected $uri;
     protected $params;
 
-    public function __construct(string $uri = '')
+    public function __construct()
     {
-        $this->setUri($uri);
+        $this->setUri();
     }
 
     public function isRouteUrisMatch(string $uriPattern)
@@ -69,9 +69,9 @@ class Request
     /**
      * @param mixed $uri
      */
-    public function setUri($uri): void
+    public function setUri(): void
     {
-        $this->uri = $uri;
+        $this->uri = $_SERVER['REQUEST_URI'];
     }
 
     /**
