@@ -2,20 +2,13 @@
 
 $route = new \Utils\Routing\Route(request());
 
-$route->add('/', function () {
-    //echo '<h1>Hello Pokedex!</h1><br>';
-
-    //$template = new Utils\View\View();
-    //$template->render('pokedex.html');
-
-    view('pokedex.html', ['pokemonName' => 'Balbusaur']);
-});
+$route->add('/', 'PokemonController@index');
 
 $route->add('/str', 'Pikachu!!!');
 
 $route->add('/arr', ['pokemon' => 'Charizard']);
 
-$route->add('/id/:id', 'PokemonController@index');
+//$route->add('/id/:id', 'PokemonController@index');
 
 $route->add('/api', function () {
     /*$data = [

@@ -1,5 +1,12 @@
 {% extends "layouts/app.html" %}
 
 {% block content %}
-    <h1>Hello {{ pokemonName }}!</h1>
+    <h1>Welcome to Pokedex!</h1>
+
+    <h3>Pokemons</h3>
+    <ul>
+        {% for pokemon in pokemons %}
+            <li>{{ pokemon['name'] }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
