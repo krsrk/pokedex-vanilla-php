@@ -4,8 +4,8 @@
 namespace App\Controllers;
 
 
-use App\Models\Pokemon;
 use App\Repositories\PokemonRepository;
+
 
 class PokemonController implements Controller
 {
