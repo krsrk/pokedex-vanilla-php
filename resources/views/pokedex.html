@@ -1,12 +1,7 @@
 {% extends "layouts/app.html" %}
 
 {% block content %}
-    <h1>Welcome to Pokedex!</h1>
+    <the-search-box></the-search-box>
 
-    <h3>Pokemons</h3>
-    <ul>
-        {% for pokemon in pokemons %}
-            <li>{{ pokemon['name'] }}</li>
-        {% endfor %}
-    </ul>
+    <the-list-data :data-list="{{ pokemons|json_encode }}"></the-list-data>
 {% endblock %}

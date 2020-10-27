@@ -4,23 +4,20 @@
         <meta charset="UTF-8">
         <title>Pokedex</title>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
         <link href="dist/css/app.css" rel="stylesheet">
     </head>
     <body>
         <div id="app">
-            <h2>Message: ${ message }</h2>
-            <!--<the-nav></the-nav>
+
+            <the-nav></the-nav>
 
             <div class="container mx-auto">
-                <the-search-box></the-search-box>
-                <the-list-data></the-list-data>
+                {% block content %}{% endblock %}
             </div>
 
-            <the-footer></the-footer>-->
+            <the-footer></the-footer>
         </div>
-        <!--<div id="content">
-            {% block content %}{% endblock %}
-        </div>-->
     </body>
     <script src="dist/js/app.js"></script>
 </html>
