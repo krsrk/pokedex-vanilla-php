@@ -3,6 +3,7 @@
 $route = new \Utils\Routing\Route(request());
 
 $route->add('/', 'PokemonController@index');
+$route->add('/show', 'PokemonController@show');
 
 $route->add('/str', 'Pikachu!!!');
 

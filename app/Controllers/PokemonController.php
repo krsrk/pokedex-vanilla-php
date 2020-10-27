@@ -23,6 +23,6 @@ class PokemonController implements Controller
 
     public function show()
     {
-        // TODO: Implement show() method.
+        return response()->json($this->repository->all(), 200);
     }
 }

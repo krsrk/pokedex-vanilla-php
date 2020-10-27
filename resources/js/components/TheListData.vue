@@ -26,12 +26,24 @@
 <script>
 export default {
     name: "TheListData",
-    props: {
+    /*props: {
         dataList: {
             type: null,
         }
+    },*/
+    mounted() {
+        this.getData()
+    },
+    data() {
+        return {
+            dataList: [],
+        }
     },
     methods: {
+        async getData() {
+            let dataResponse = await fetch('/show')
+            this.dataList = await dataResponse.json()
+        },
         moreInfoUrl(item) {
             return "https://www.pokemon.com/el/pokedex/" + item.name.toLowerCase()
         }
