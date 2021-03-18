@@ -2,7 +2,7 @@
     <div class="grid grid-cols-3 gap-4">
         <template v-for="item in dataList">
             <div class="max-w-xs rounded overflow-hidden shadow-lg my-5">
-                <img class="w-full" :src="item.image" :alt="item.name">
+                <img loading="lazy" class="w-full" :src="item.image" :alt="item.name">
                 <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2">{{ item.code }} - {{ item.name }}</div>
                     <p class="text-grey-darker text-base">
@@ -31,19 +31,29 @@ export default {
             type: null,
         }
     },*/
-    mounted() {
+    /*mounted() {
         this.getData()
-    },
+    },*/
     data() {
         return {
-            dataList: [],
+            //dataList: [],
         }
     },
+    computed: {
+        dataList: {
+            get () {
+                return this.$store.getters.POKEMON_FILTER_LIST
+            },
+            set (value) {
+                this.$store.commit('SET_POKEMON_FILTER_LIST', value)
+            }
+        },
+    },
     methods: {
-        async getData() {
+        /*async getData() {
             let dataResponse = await fetch('/show')
             this.dataList = await dataResponse.json()
-        },
+        },*/
         moreInfoUrl(item) {
             return "https://www.pokemon.com/el/pokedex/" + item.name.toLowerCase()
         }
