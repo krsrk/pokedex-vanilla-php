@@ -26,19 +26,6 @@
 <script>
 export default {
     name: "TheListData",
-    /*props: {
-        dataList: {
-            type: null,
-        }
-    },*/
-    /*mounted() {
-        this.getData()
-    },*/
-    data() {
-        return {
-            //dataList: [],
-        }
-    },
     computed: {
         dataList: {
             get () {
@@ -50,10 +37,6 @@ export default {
         },
     },
     methods: {
-        /*async getData() {
-            let dataResponse = await fetch('/show')
-            this.dataList = await dataResponse.json()
-        },*/
         moreInfoUrl(item) {
             return "https://www.pokemon.com/el/pokedex/" + item.name.toLowerCase()
         }

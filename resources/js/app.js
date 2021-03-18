@@ -28,7 +28,16 @@ const store = new Vuex.Store({
         SET_POKEMON_FILTER_LIST(state, data) {
             state.pokemonFilterList = data
         },
-    }
+    },
+    actions: {
+        async getData(context, value) {
+            let response = await fetch('/show')
+            let dataResponse = await response.json()
+
+            context.commit('SET_POKEMON_LIST', dataResponse)
+            context.commit('SET_POKEMON_FILTER_LIST', dataResponse)
+        },
+    },
 })
 
 new Vue({
@@ -40,8 +49,8 @@ new Vue({
         'the-list-data': TheListData,
         'the-footer': TheFooter,
     },
-    mounted() {
-        this.getData()
+    created() {
+        this.$store.dispatch('getData')
     },
     store,
     computed: {
@@ -67,11 +76,4 @@ new Vue({
             message: "Hello Pokedex!!!"
         }
     },
-    methods: {
-        async getData() {
-            let dataResponse = await fetch('/show')
-            this.dataList = await dataResponse.json()
-            this.filterDataList = this.dataList
-        },
-    }
 })
