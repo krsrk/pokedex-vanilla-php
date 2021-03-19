@@ -1,44 +1,11 @@
 import Vue from "vue"
-import Vuex from "vuex"
 
-Vue.use(Vuex)
+import store from "./store/store"
 
 import TheNav from "./components/TheNav"
 import TheSearchBox from "./components/TheSearchBox"
 import TheListData from "./components/TheListData"
 import TheFooter from "./components/TheFooter"
-
-const store = new Vuex.Store({
-    state: {
-        pokemonList: [],
-        pokemonFilterList: []
-    },
-    getters: {
-        POKEMON_LIST: state => {
-            return state.pokemonList
-        },
-        POKEMON_FILTER_LIST: state => {
-            return state.pokemonFilterList
-        },
-    },
-    mutations: {
-        SET_POKEMON_LIST(state, data) {
-            state.pokemonList = data
-        },
-        SET_POKEMON_FILTER_LIST(state, data) {
-            state.pokemonFilterList = data
-        },
-    },
-    actions: {
-        async getData(context, value) {
-            let response = await fetch('/show')
-            let dataResponse = await response.json()
-
-            context.commit('SET_POKEMON_LIST', dataResponse)
-            context.commit('SET_POKEMON_FILTER_LIST', dataResponse)
-        },
-    },
-})
 
 new Vue({
     el: "#app",
