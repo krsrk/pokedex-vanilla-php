@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2",
+        "php": "^8.1||^8.2",
         "twig/twig": "^3.0",
         "illuminate/database": "^7.20",
         "vlucas/phpdotenv": "^5.2"
