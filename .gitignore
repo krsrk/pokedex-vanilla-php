@@ -3,7 +3,6 @@
 /.idea
 /.vagrant
 .env
-composer.lock
 yarn.lock
 package-lock.json
 /.vscode
