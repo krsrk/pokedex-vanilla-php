@@ -25,4 +25,9 @@ class PokemonController implements Controller
     {
         return response()->json($this->repository->all(), 200);
     }
+
+    public function test()
+    {
+        return 'Hello World';
+    }
 }
