@@ -1,9 +1,9 @@
 <?php
 
-use Utils\View\View;
 use Utils\Configuration\Env;
 use Utils\Request;
-use Utils\Response;
+use Utils\Response\Response;
+use Utils\View\View;
 
 
 if (! function_exists('view')) {

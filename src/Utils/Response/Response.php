@@ -1,9 +1,10 @@
 <?php
 
 
-namespace Utils;
+namespace Utils\Response;
 
 
+use Utils\Request;
 use Utils\Response\ClosureTypes\ClosureType;
 use Utils\ValueObjects\ClosureTypes;
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace Utils;
+namespace Utils\Response;
+
+use Utils\Request;
 
 interface ResponseInterface
 {
