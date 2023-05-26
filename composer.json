@@ -19,5 +19,13 @@
         "files": [
             "src/Utils/helpers.php"
         ]
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

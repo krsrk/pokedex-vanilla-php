@@ -1,39 +1,42 @@
 <?php
 
 
-namespace Utils;
+namespace Utils\Response;
 
 
-class Response
+use Utils\Request;
+use Utils\Response\ClosureTypes\ClosureType;
+use Utils\ValueObjects\ClosureTypes;
+
+class Response implements ResponseInterface
 {
-    protected $closure;
-
-    public function __construct($closure = null)
+    public function __construct(protected $closure = null)
     {
-        if(!is_null($closure)) {
-            $this->setClosure($closure);
+        if(!is_null($this->closure)) {
+            $this->setClosure();
         }
     }
 
-    public function send($request)
+    public function send(Request $request): void
     {
-        if ($this->closure['closure_type'] == 'string') {
-            echo $this->closure['closure'];
-        } elseif ($this->closure['closure_type'] == 'array') {
-            echo json_encode($this->closure['closure']);
-        } elseif ($this->closure['closure_type'] == 'closure' || $this->closure['closure_type'] == 'controller') {
-            $this->_executeClosure($request);
-        } else {
+        if (is_null(ClosureTypes::tryFrom($this->closure['closure_type']))) {
             header("HTTP/1.0 404 Not Found");
             exit('<h3>404 - Not Found</h3>');
         }
+
+        ClosureType::from($this->closure['closure_type'], $this->closure['closure'])->execute($request->getParams());
     }
 
-    private function _executeClosure($request)
+    /**
+     * @param Request $request
+     * @return mixed
+     * @deprecated
+     */
+    private function _executeClosure(Request $request)
     {
         $closure = $this->closure['closure'];
         $parameters = $request->getParams();
-        $isControllerClosure = ($this->closure['closure_type'] == 'controller');
+        $isControllerClosure = ($this->closure['closure_type'] == ClosureTypes::CLOSURE_CONTROLLER->value);
 
         if ($isControllerClosure) {
            $controller = $this->closure['object_info']['class_instance'];
@@ -43,28 +46,23 @@ class Response
         return ($isControllerClosure) ? $controller->$controllerMethod($parameters) : call_user_func_array($closure, $parameters);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getClosure()
+    public function getClosure(): mixed
     {
         return $this->closure;
     }
 
-    /**
-     * @param mixed $closure
-     */
-    public function setClosure($closure): void
+    public function setClosure(): void
     {
+        $closure = $this->closure;
         $controllerNamespace = '\App\Controllers\\';
         $closureType = 'unknown';
         $objectInfo = [];
 
         if (is_string($closure)) {
-            $closureType = 'string';
+            $closureType = ClosureTypes::CLOSURE_STRING->value;
             $closureArr = explode('@', $closure);
             if (count($closureArr) > 1) {
-                $closureType = 'controller';
+                $closureType = ClosureTypes::CLOSURE_CONTROLLER->value;
                 $closureArr[0] = $controllerNamespace . $closureArr[0];
                 $controllerClass = new $closureArr[0];
                 $contollerMethod = $closureArr[1];
@@ -77,21 +75,21 @@ class Response
         }
 
         if (is_array($closure)) {
-            $closureType = 'array';
+            $closureType = ClosureTypes::CLOSURE_ARRAY->value;
         }
 
         if (is_callable($closure)) {
-            $closureType = 'closure';
+            $closureType = ClosureTypes::CLOSURE_FUNCTION->value;
         }
 
         $this->closure = [
-            'closure' => $closure,
+            'closure' => ($closureType != ClosureTypes::CLOSURE_CONTROLLER->value) ? $closure : $objectInfo,
             'closure_type' => $closureType,
             'object_info' => $objectInfo,
         ];
     }
 
-    public function json($dataResponse, int $codeResponse = 200)
+    public function json(mixed $dataResponse, int $codeResponse = 200): void
     {
         $processData = $dataResponse;
 

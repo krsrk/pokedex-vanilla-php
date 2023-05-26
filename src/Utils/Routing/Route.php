@@ -5,9 +5,8 @@ namespace Utils\Routing;
 
 
 use Utils\Request;
-use Utils\Response;
 
-class Route
+class Route implements RouteInterface
 {
     protected $routes = [];
     protected $request;
@@ -17,15 +16,15 @@ class Route
         $this->setRequest($request);
     }
 
-    public function add(string $uriString, $closure)
+    public function add(string $uriString, mixed $closure): void
     {
-        array_push($this->routes, [
+        $this->routes[] = [
             'uri' => $uriString,
             'closure' => $closure
-        ]);
+        ];
     }
 
-    public function run()
+    public function run(): void
     {
         $response = [
             'uri' => '',
@@ -39,10 +38,10 @@ class Route
             }
         }
 
-        (new Response($response['closure']))->send($this->request);
+        response($response['closure'])->send($this->request);
     }
 
-    public function checkIfRoutesMatch($routeUri)
+    public function checkIfRoutesMatch($routeUri): bool
     {
         $isRoutesMatch = false;
         $uriPattern = $this->request->getUriPattern($routeUri);
@@ -58,6 +57,7 @@ class Route
 
     /**
      * @return mixed
+     * @deprecated
      */
     public function getRequestUri()
     {
@@ -66,25 +66,25 @@ class Route
 
     /**
      * @param mixed $uri
+     * @deprecated
      */
     public function setRequestUri($uri): void
     {
         $this->requestUri = $uri;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
-    /**
-     * @param mixed $request
-     */
     public function setRequest($request): void
     {
         $this->request = $request;
+    }
+
+    public function getRoutes(): array
+    {
+        return $this->routes;
     }
 }

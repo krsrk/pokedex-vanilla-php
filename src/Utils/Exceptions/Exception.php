@@ -6,5 +6,5 @@ namespace Utils\Exceptions;
 
 interface Exception
 {
-    public function handle();
+    public function handle(): void;
 }

@@ -4,20 +4,20 @@
 namespace Utils;
 
 
-class Request
+class Request implements RequestInterface
 {
     const PARAMETER_PATTERN = '/:([^\/]+)/';
     const PARAMETER_REPLACEMENT = '(?<\1>[^/]+)';
 
-    protected $uri;
-    protected $params;
+    protected string $uri = '';
+    protected array $params = [];
 
     public function __construct()
     {
-        $this->setUri();
+        $this->_setUri();
     }
 
-    public function isRouteUrisMatch(string $uriPattern)
+    public function isRouteUrisMatch(string $uriPattern): object
     {
         $uri = explode('?', $this->getUri())[0];
         return (object)[
@@ -26,67 +26,53 @@ class Request
         ];
     }
 
-
-    public function getUriPattern(string $routeUri)
+    public function getUriPattern(string $routeUri): string
     {
         $uriPattern = preg_replace(self::PARAMETER_PATTERN, self::PARAMETER_REPLACEMENT, $routeUri);
         $uriPattern = str_replace('/', '\/', $uriPattern);
-        $uriPattern = '/^' . $uriPattern . '\/*$/s';
 
-        return $uriPattern;
+        return '/^' . $uriPattern . '\/*$/s';
     }
 
-    public function processParams($uriMatches, $routeUri)
+    public function processParams($uriMatches, $routeUri): void
     {
         preg_match_all(self::PARAMETER_PATTERN, $routeUri, $parameterNames);
         $paramNames = array_flip($parameterNames[1]);
-        $this->setParams(array_intersect_key($uriMatches, $paramNames));
+        $this->_setParams(array_intersect_key($uriMatches, $paramNames));
     }
 
-    public function isMethod(string $method)
+    public function isMethod(string $method): bool
     {
         return (strtoupper($method) == $_SERVER['REQUEST_METHOD']);
     }
 
-    public function getUrlParams($castParamsToObject = false)
+    public function getUrlParams($castParamsToObject = false): mixed
     {
         return ($castParamsToObject) ? (object) $_REQUEST : $_REQUEST;
     }
 
-    public function getHeaders()
+    public function getHeaders(): mixed
     {
         return getallheaders();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @param mixed $uri
-     */
-    public function setUri(): void
-    {
-        $this->uri = $_SERVER['REQUEST_URI'];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->params;
     }
 
-    /**
-     * @param mixed $params
-     */
-    public function setParams($params): void
+    private function _setParams(mixed $params): void
     {
         $this->params = $params;
+    }
+
+    private function _setUri(): void
+    {
+        $this->uri = $_SERVER['REQUEST_URI'];
     }
 }
