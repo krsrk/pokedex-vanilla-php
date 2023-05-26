@@ -19,13 +19,13 @@ class View
         $this->_init();
     }
 
-    private function _init()
+    private function _init(): void
     {
         $loader = new Loader(self::TEMPLATES_PATH);
         $this->view = new Environment($loader);
     }
 
-    public function render(string $viewFile, array $opts = [])
+    public function render(string $viewFile, array $opts = []): void
     {
         try {
             echo $this->view->render($viewFile, $opts);
