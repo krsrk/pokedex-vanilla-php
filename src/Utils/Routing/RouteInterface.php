@@ -1,6 +1,8 @@
 <?php
 
-namespace Utils;
+namespace Utils\Routing;
+
+use Utils\Request;
 
 interface RouteInterface
 {

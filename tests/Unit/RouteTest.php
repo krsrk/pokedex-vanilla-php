@@ -14,3 +14,11 @@ test('it can create a route', function (){
 
     expect($route->getRoutes()[0])->toHaveKeys(['uri', 'closure']);
 });
+
+test('it can bootstrap a routes', function (){
+    $_SERVER['REQUEST_URI'] = '/orders';
+    $route = new \Utils\Routing\Route(request());
+    $route->add('/orders',  fn() => response()->json(['Charmander']));
+
+    $route->run();
+})->expectNotToPerformAssertions();

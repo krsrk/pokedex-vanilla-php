@@ -5,8 +5,6 @@ namespace Utils\Routing;
 
 
 use Utils\Request;
-use Utils\Response;
-use Utils\RouteInterface;
 
 class Route implements RouteInterface
 {
@@ -40,7 +38,7 @@ class Route implements RouteInterface
             }
         }
 
-        (new Response($response['closure']))->send($this->request);
+        response($response['closure'])->send($this->request);
     }
 
     public function checkIfRoutesMatch($routeUri): bool
